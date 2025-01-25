@@ -18,20 +18,24 @@ export const useTimerViewModel = () => {
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
-    if (!isRunning) {
+
+    if (isRunning) {
       timer = setInterval(() => {
         dispatch(decrementTime());
       }, 1000);
     }
 
+    return () => {
+      clearInterval(timer); // Cleanup when timer stops or component unmounts
+    };
+  }, [isRunning, dispatch]);
+
+
+  useEffect(() => {
     if (timeLeft === 0) {
       dispatch(switchMode());
     }
-
-    return () => {
-      clearInterval(timer);
-    };
-  }, [isRunning, timeLeft, dispatch]);
+  }, [timeLeft, dispatch]);
 
   const start = () => {
     dispatch(startTimer());
@@ -45,5 +49,5 @@ export const useTimerViewModel = () => {
     dispatch(resetTimer());
   };
 
-  return { start, pause, reset, mode, timeLeft, isRunning};
+  return { start, pause, reset, mode, timeLeft, isRunning };
 };
