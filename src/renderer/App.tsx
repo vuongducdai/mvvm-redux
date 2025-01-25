@@ -1,7 +1,7 @@
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
-import icon from '../../assets/icon.svg';
-import './App.css';
 import PomodoroTimer from '../ui/PomodoroTimer';
+import { Provider } from 'react-redux';
+import reduxStore from '../redux/store';
 
 function Hello() {
   return (
@@ -13,10 +13,12 @@ function Hello() {
 
 export default function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Hello />} />
-      </Routes>
-    </Router>
+    <Provider store={reduxStore}>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Hello />} />
+        </Routes>
+      </Router>
+    </Provider>
   );
 }
